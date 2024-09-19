@@ -1,5 +1,5 @@
 # Lifetime
-Lifetime is a simple module that allows you to create Lifetimes.
+Lifetime is a simple module that allows you to create objects with a set lifespan.
 
 ## Documentation
 ### Lifetime
@@ -39,3 +39,24 @@ Fired when the Lifetime is revived using `Lifetime:Revive()`
 
 ##### Lifetime.Died
 Fired when the Lifetime dies (`Age` >= `Lifespan`)
+## Use Cases
+
+### The Button
+([Based on the social experiment](https://en.wikipedia.org/wiki/The_Button_(Reddit)))
+A 60 second countdown is displayed for all users. When it reaches zero, the game ends. When the button is pressed, the countdown is reset.
+
+This can be achieved with the following:
+```lua
+local Lifetime = require(path.to.Lifetime)
+
+local ButtonLifetime = Lifetime.new()
+ButtonLifetime.Lifespan = 60
+ButtonLifetime:Revive()
+
+-- Inside a function that handles when the button is clicked
+ButtonLifetime:Revive()
+
+ButtonLifetime.Died:Connect(function()
+	-- Handle the button dying
+end)
+```
